@@ -3,24 +3,20 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace FFG
+namespace Lacobus.Events
 {
     [Serializable]
     public class EventContainer
     {
-        #region Fields
+        // Fields
 
-        [SerializeField]
-        private string _eventId;
-        [SerializeField]
-        private UnityEvent _noParameterEvent = null;
-        [SerializeField]
-        private UnityEvent<object> _singleParameterEvent = null;
-        [SerializeField]
-        private UnityEvent<object, GameObject> _doubleParameterEvent = null;
+        [SerializeField] private string _eventId;
+        [SerializeField] private UnityEvent _noParameterEvent = null;
+        [SerializeField] private UnityEvent<object> _singleParameterEvent = null;
+        [SerializeField] private UnityEvent<object, GameObject> _doubleParameterEvent = null;
 
-        #endregion Fields
-        #region Constructors
+
+        // Constructors
 
         public EventContainer(string eventTag)
         {
@@ -30,13 +26,13 @@ namespace FFG
             _doubleParameterEvent = new UnityEvent<object, GameObject>();
         }
 
-        #endregion Constructors
-        #region Properties
+
+        //Properties
 
         public string EventTag => _eventId;
 
-        #endregion Properties
-        #region Public methods
+
+        // Public methods
 
         /// <summary>
         /// Method to add listener with no arguments
@@ -53,6 +49,7 @@ namespace FFG
         /// </summary>
         public void AddListener(UnityAction<object, GameObject> listener) => _doubleParameterEvent.AddListener(listener);
 
+
         /// <summary>
         /// Method to remove listener with no arguments
         /// </summary>
@@ -67,6 +64,7 @@ namespace FFG
         /// Method to remove listener with 2 argument
         /// </summary>
         public void RemoveListener(UnityAction<object, GameObject> listener) => _doubleParameterEvent.RemoveListener(listener);
+
 
         /// <summary>
         /// Method to invoke a listener with no argument
@@ -85,7 +83,5 @@ namespace FFG
         /// <param name="data">Optional data to be passed</param>
         /// <param name="instigator">Event instigating object</param>
         public void Invoke(object data, GameObject instigator) => _doubleParameterEvent?.Invoke(data, instigator);
-
-        #endregion Public methods
     }
 }

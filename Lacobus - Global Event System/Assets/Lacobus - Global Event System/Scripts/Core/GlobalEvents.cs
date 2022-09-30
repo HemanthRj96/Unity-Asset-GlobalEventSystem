@@ -3,40 +3,16 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace FFG
+namespace Lacobus.Events
 {
     public static class GlobalEvents
     {
-        #region Fields
+        // Fields
 
         private static Dictionary<string, EventContainer> s_eventContainerLookup = new Dictionary<string, EventContainer>();
 
-        #endregion Fields
-        #region Private methods
 
-        private static bool containsKey(string key) => s_eventContainerLookup.ContainsKey(key);
-
-        private static bool isValidString(string str) => string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str);
-
-        private static bool eventDoesNotExist(string eventId) => isValidString(eventId) && !containsKey(eventId);
-
-        private static bool eventDoesExist(string eventId) => isValidString(eventId) && containsKey(eventId);
-
-        private static void createEvent(string eventId, UnityAction noParamEvent = null, UnityAction<object> singleParamEvent = null, UnityAction<object, GameObject> doubleParamEvent = null)
-        {
-            EventContainer container = new EventContainer(eventId);
-
-            if (noParamEvent != null)
-                container.AddListener(noParamEvent);
-            else if (singleParamEvent != null)
-                container.AddListener(singleParamEvent);
-            else if (doubleParamEvent != null)
-                container.AddListener(doubleParamEvent);
-            s_eventContainerLookup.Add(eventId, container);
-        }
-
-        #endregion Private methods
-        #region Public methods
+        // Public methods
 
         /// <summary>
         /// Method to create a new event
@@ -87,6 +63,7 @@ namespace FFG
                 createEvent(eventId, doubleParamEvent: targetEvent);
         }
 
+
         /// <summary>
         /// Method to add a listener to an event
         /// </summary>
@@ -119,6 +96,7 @@ namespace FFG
             if (eventDoesExist(eventId))
                 s_eventContainerLookup[eventId].AddListener(targetEvent);
         }
+
 
         /// <summary>
         /// Method to invoke an event
@@ -153,6 +131,7 @@ namespace FFG
                 s_eventContainerLookup[eventId].Invoke(eventData, eventInstigator);
         }
 
+
         /// <summary>
         /// Method to remove event listener
         /// </summary>
@@ -186,6 +165,7 @@ namespace FFG
                 s_eventContainerLookup[eventId].RemoveListener(targetEvent);
         }
 
+
         /// <summary>
         /// Method to destroy an event
         /// </summary>
@@ -196,6 +176,40 @@ namespace FFG
                 s_eventContainerLookup.Remove(eventId);
         }
 
-        #endregion Public methods
+
+        // Private methods
+
+        private static bool containsKey(string key)
+        {
+            return s_eventContainerLookup.ContainsKey(key);
+        }
+
+        private static bool isValidString(string str)
+        {
+            return string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str);
+        }
+
+        private static bool eventDoesNotExist(string eventId)
+        {
+            return isValidString(eventId) && !containsKey(eventId);
+        }
+
+        private static bool eventDoesExist(string eventId)
+        {
+            return isValidString(eventId) && containsKey(eventId);
+        }
+
+        private static void createEvent(string eventId, UnityAction noParamEvent = null, UnityAction<object> singleParamEvent = null, UnityAction<object, GameObject> doubleParamEvent = null)
+        {
+            EventContainer container = new EventContainer(eventId);
+
+            if (noParamEvent != null)
+                container.AddListener(noParamEvent);
+            else if (singleParamEvent != null)
+                container.AddListener(singleParamEvent);
+            else if (doubleParamEvent != null)
+                container.AddListener(doubleParamEvent);
+            s_eventContainerLookup.Add(eventId, container);
+        }
     }
 }

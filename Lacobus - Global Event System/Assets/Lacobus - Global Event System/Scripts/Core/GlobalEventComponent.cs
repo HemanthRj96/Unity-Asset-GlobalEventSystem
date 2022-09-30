@@ -2,19 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace FFG
+namespace Lacobus.Events
 {
     public sealed class GlobalEventComponent : MonoBehaviour
     {
-        #region Fields
+        // Fields
 
-        [SerializeField]
-        private EventContainer[] _eventContainer = null;
+        [SerializeField] private EventContainer[] _eventContainer = null;
 
         private List<EventInvokeHelpers> _invokeHelpers = new List<EventInvokeHelpers>();
 
-        #endregion Fields
-        #region Private methods
+
+        // Private methods
 
         private void init()
         {
@@ -33,8 +32,8 @@ namespace FFG
             }
         }
 
-        #endregion Private methods
-        #region Lifecycle methods
+
+        // Lifecycle methods
 
         private void Awake()
         {
@@ -51,8 +50,8 @@ namespace FFG
             }
         }
 
-        #endregion Lifecycle methods
-        #region Nested types
+
+        // Nested types
 
         internal class EventInvokeHelpers
         {
@@ -75,7 +74,5 @@ namespace FFG
             public void SingleParamEvent(object eventData) => _eventContainer.Invoke(eventData);
             public void DoubleParamEvent(object eventData, GameObject eventInstigator) => _eventContainer.Invoke(eventData, eventInstigator);
         }
-
-        #endregion Nested types
     }
 }
